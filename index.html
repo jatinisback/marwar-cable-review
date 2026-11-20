@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#116b3b">
+<title>Marwar Cable | Review Helper</title>
+<style>
+:root{--green:#116b3b;--dark:#173323;--muted:#65756b;--line:#dce8df}
+*{box-sizing:border-box}
+body{margin:0;padding:22px 14px;background:#f2f7f3;color:var(--dark);font-family:Arial,sans-serif}
+main{max-width:540px;margin:0 auto}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px 20px;box-shadow:0 10px 32px #163b2410}
+.brand{text-align:center;font-size:28px;font-weight:800;letter-spacing:1px;color:var(--green)}
+.tag{text-align:center;color:var(--muted);margin:7px 0 16px}
+.stars{text-align:center;color:#e5a000;font-size:28px;letter-spacing:4px}
+h1{text-align:center;font-size:19px;margin:8px 0 16px}
+textarea{width:100%;min-height:185px;padding:14px;border:1px solid var(--line);border-radius:13px;font:16px/1.55 Arial,sans-serif;color:#25372b;resize:vertical}
+.note{font-size:12px;line-height:1.55;color:var(--muted);margin:10px 2px 16px}
+button,a{display:block;width:100%;border:0;border-radius:13px;padding:15px 12px;text-align:center;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer}
+.secondary{background:#eaf3ed;color:var(--green);margin-bottom:10px}
+.primary{background:var(--green);color:white}
+.status{text-align:center;min-height:35px;padding-top:10px;font-size:13px;color:var(--muted);line-height:1.45}
+.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:16px}
+</style>
+</head>
+<body>
+<main><section class="card">
+  <div class="brand">MARWAR CABLE</div>
+  <div class="tag">आपका विश्वास, हमारी सेवा</div>
+  <div class="stars">★★★★★</div>
+  <h1>अपना अनुभव साझा करें</h1>
+  <textarea id="review" aria-label="आपका review" placeholder="आपका Review यहाँ तैयार होगा..."></textarea>
+  <div class="note">यह एक editable review सुझाव है। कृपया केवल वही बातें रखें जो आपके अपने अनुभव से सही हों। अपनी रेटिंग खुद चुनें।</div>
+  <button class="secondary" id="again">↻ दूसरा Review बनाएँ</button>
+  <button class="primary" id="post">REVIEW COPY करें और GOOGLE खोलें</button>
+  <div class="status" id="status" aria-live="polite">आपके लिए Review तैयार है। चाहें तो बदल सकते हैं।</div>
+  <div class="foot">Marwar Cable • Jodhpur</div>
+</section></main>
+<script>
+const GOOGLE_REVIEW_URL = "https://maps.app.goo.gl/a1so62rDCnphr4SZA";
+
+// Phrase banks combine into many varied drafts locally on the customer's phone.
+// No API, account, server-side AI, or paid key is used.
+const openers = [
+ "Marwar Cable की सर्विस का मेरा अनुभव अच्छा रहा।",
+ "Marwar Cable की सेवा से मैं संतुष्ट हूँ।",
+ "मेरे अनुभव में Marwar Cable एक अच्छा विकल्प है।",
+ "Marwar Cable की टीम का काम सराहनीय लगा।",
+ "Jodhpur में Marwar Cable की सर्विस का अनुभव अच्छा रहा।",
+ "Marwar Cable के साथ मेरा अनुभव सकारात्मक रहा।",
+ "यहाँ की सर्विस और ग्राहक से व्यवहार अच्छा लगा।"
+];
+const internet = [
+ "इंटरनेट की स्पीड और नेटवर्क क्वालिटी अच्छी है।",
+ "ब्रॉडबैंड कनेक्शन की परफॉर्मेंस मेरी जरूरत के अनुसार अच्छी रही।",
+ "इंटरनेट और नेटवर्क से जुड़ा अनुभव अच्छा रहा।",
+ "नेटवर्क और कनेक्टिविटी की सर्विस संतोषजनक लगी।",
+ "इंटरनेट सर्विस के साथ अच्छा सपोर्ट भी मिलता है।"
+];
+const tv = [
+ "केबल TV और IPTV की सुविधा भी उपयोगी है।",
+ "केबल TV/IPTV की सर्विस का विकल्प भी अच्छा है।",
+ "इंटरनेट के साथ TV सर्विस की सुविधा मिलना अच्छा है।",
+ "TV और IPTV से जुड़ी सुविधा भी अच्छी लगी।"
+];
+const jatin = [
+ "Jatin Ji का बात करने का तरीका विनम्र और friendly है।",
+ "Jatin Ji ग्राहकों से अच्छे और familiar तरीके से बात करते हैं।",
+ "Jatin Ji का व्यवहार अच्छा और सहयोगपूर्ण है।",
+ "Jatin Ji का positive attitude और customer-friendly nature अच्छा लगा।",
+ "Jatin Ji ग्राहक की बात ध्यान से सुनते हैं और अच्छे से समझाते हैं।"
+];
+const fast = [
+ "जरूरत पड़ने पर response जल्दी मिलता है।",
+ "सर्विस और समस्या के समाधान में तेजी रहती है।",
+ "टीम का response fast और helpful है।",
+ "किसी काम के लिए संपर्क करने पर जल्दी सहायता मिलती है।",
+ "फास्ट सर्विस और सहयोग अच्छी बात है।"
+];
+const price = [
+ "रेट भी उचित और बजट के हिसाब से अच्छे हैं।",
+ "कीमतें market के मुकाबले reasonable लगती हैं।",
+ "सर्विस के हिसाब से इनके रेट अच्छे हैं।",
+ "उचित कीमत और अच्छा व्यवहार इसे बेहतर बनाते हैं।"
+];
+const closers = [
+ "कुल मिलाकर अच्छा अनुभव रहा।",
+ "मैं इनके प्रयासों की सराहना करता/करती हूँ।",
+ "अच्छी customer service के लिए धन्यवाद।",
+ "जो लोग इनकी सेवा लेने पर विचार कर रहे हैं, वे अपनी जरूरत के अनुसार जानकारी ले सकते हैं।",
+ "उम्मीद है आगे भी ऐसी ही अच्छी सर्विस मिलती रहेगी।"
+];
+let last = "";
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function makeReview(){
+ let parts = [pick(openers)];
+ const categories = [internet,tv,jatin,fast,price];
+ // Mix 3 or 4 topics so each generated draft differs in order and content.
+ const shuffled = categories.slice().sort(()=>Math.random()-.5);
+ const count = 3 + Math.floor(Math.random()*2);
+ parts.push(...shuffled.slice(0,count).map(pick));
+ parts.push(pick(closers));
+ let draft = parts.join(" ");
+ if(draft === last) return makeReview();
+ last = draft;
+ document.getElementById("review").value = draft;
+ document.getElementById("status").textContent = "नया Review तैयार है। अपने अनुभव के अनुसार edit करें।";
+}
+document.getElementById("again").addEventListener("click",makeReview);
+document.getElementById("post").addEventListener("click",async()=>{
+ const field=document.getElementById("review");
+ const text=field.value.trim();
+ const status=document.getElementById("status");
+ if(!text){status.textContent="पहले Review तैयार करें।";return;}
+ let copied=false;
+ try { await navigator.clipboard.writeText(text); copied=true; }
+ catch(e) { field.focus(); field.select(); try{copied=document.execCommand("copy");}catch(_){} }
+ window.open(GOOGLE_REVIEW_URL,"_blank","noopener");
+ status.textContent = copied
+  ? "Review copy हो गया। Google पर Review बॉक्स में Paste करें, अपनी सही rating चुनें और Submit करें।"
+  : "Google खुल गया। Review को Copy करके Google के Review बॉक्स में Paste करें।";
+});
+makeReview();
+</script>
+</body></html>
